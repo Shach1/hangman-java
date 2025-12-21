@@ -20,20 +20,25 @@ public class Game {
         return isEnd;
     }
 
-    private int _letterCheck(char letter){
+    private int _letterCheckAndReplace(char letter){
+        boolean isMistake = true;
         int i = 0;
         while (i < hiddenWord.length) {
-            if(hiddenWord[i] == letter) return i;
+            if(hiddenWord[i] == letter){
+                maskHiddenWord[i] = letter;
+                isMistake = false;
+            }
             i++;
         }
-        return -1;
+        if (isMistake) return -1;
+        return 0;
     }
 
     public void play(char letter){
-        int resultLetterCheck = _letterCheck(letter);
+        int resultLetterCheck = _letterCheckAndReplace(letter);
         if (resultLetterCheck == -1){
             errorCounter++;
-            misspelledLetters += letter + "";
+            misspelledLetters += letter + " ";
             _printCurrentState();
             if (errorCounter == maxErrorCount){
                 isEnd = true;
@@ -42,7 +47,6 @@ public class Game {
             }
         }
         else {
-            maskHiddenWord[resultLetterCheck] = letter;
             if (Arrays.equals(maskHiddenWord, hiddenWord)){
                 isEnd = true;
                 System.out.println("Вы выйграли!!!");
