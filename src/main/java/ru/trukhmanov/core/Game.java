@@ -49,7 +49,7 @@ public class Game {
         else {
             if (Arrays.equals(maskHiddenWord, hiddenWord)){
                 isEnd = true;
-                System.out.println("Вы выйграли!!!");
+                System.out.println("✅✅✅Вы выйграли!");
             }
             printCurrentState();
         }
