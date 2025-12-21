@@ -10,14 +10,26 @@ public class Game {
     private final short maxErrorCount = 6;
     private String misspelledLetters = "";
 
-    public Game(String word) {
-        this.hiddenWord = word.toUpperCase().toCharArray();
-        maskHiddenWord = new char[hiddenWord.length];
-        Arrays.fill(maskHiddenWord, '_');
+    public char[] getMaskHiddenWord() {
+        return maskHiddenWord;
+    }
+
+    public short getErrorCounter() {
+        return errorCounter;
+    }
+
+    public String getMisspelledLetters() {
+        return misspelledLetters;
     }
 
     public boolean isEnd() {
         return isEnd;
+    }
+
+    public Game(String word) {
+        this.hiddenWord = word.toUpperCase().toCharArray();
+        maskHiddenWord = new char[hiddenWord.length];
+        Arrays.fill(maskHiddenWord, '_');
     }
 
     private int _letterCheckAndReplace(char letter){
@@ -34,30 +46,27 @@ public class Game {
         return 0;
     }
 
-    public void play(char letter){
+    /*
+        Возвращает -1, когда игра проиграна
+        Возвращает 0, когда игра продолжается
+        Возвращает 1, когда игра выиграна
+     */
+    public int play(char letter){
         int resultLetterCheck = _letterCheckAndReplace(letter);
         if (resultLetterCheck == -1){
             errorCounter++;
             misspelledLetters += letter + " ";
-            printCurrentState();
-            if (errorCounter == maxErrorCount){
+            if (errorCounter == maxErrorCount){     //проверка поражения
                 isEnd = true;
-                System.out.println("Игра окончена вы проиграли");
-                return;
+                return -1;
             }
         }
-        else {
+        else {      //проверка выйгрыша
             if (Arrays.equals(maskHiddenWord, hiddenWord)){
                 isEnd = true;
-                System.out.println("✅✅✅Вы выйграли!");
+                return 1;
             }
-            printCurrentState();
         }
-    }
-
-    protected void printCurrentState(){
-        System.out.println(HangmanAsciiPrinter.hangmanAscii(errorCounter));
-        System.out.println("Слово: " + String.copyValueOf(maskHiddenWord));
-        System.out.println("Ошибки: " + misspelledLetters);
+        return 0;   //играем дальше
     }
 }
