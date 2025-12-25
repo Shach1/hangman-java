@@ -4,30 +4,36 @@ import java.util.Arrays;
 
 public class Game {
     private boolean isEnd = false;
-    private char[] hiddenWord;
-    private char[] maskHiddenWord;
+    private final char[] hiddenWord;
+    private final String hiddenWordString;
+    private final char[] maskHiddenWord;
     private short errorCounter = 0;
     private final short maxErrorCount = 6;
     private String misspelledLetters = "";
 
-    public char[] getMaskHiddenWord() {
+    protected char[] getMaskHiddenWord() {
         return maskHiddenWord;
     }
 
-    public short getErrorCounter() {
+    protected short getErrorCounter() {
         return errorCounter;
     }
 
-    public String getMisspelledLetters() {
+    protected String getMisspelledLetters() {
         return misspelledLetters;
     }
 
-    public boolean isEnd() {
+    protected String getHiddenWordString() {
+        return hiddenWordString;
+    }
+
+    protected boolean isEnd() {
         return isEnd;
     }
 
     public Game(String word) {
-        this.hiddenWord = word.toUpperCase().toCharArray();
+        this.hiddenWordString = word.toUpperCase();
+        this.hiddenWord = hiddenWordString.toCharArray();
         maskHiddenWord = new char[hiddenWord.length];
         Arrays.fill(maskHiddenWord, '_');
     }

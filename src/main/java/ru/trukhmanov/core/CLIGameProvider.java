@@ -1,11 +1,19 @@
 package ru.trukhmanov.core;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 
 public class CLIGameProvider implements IGameProvider {
 
     private Game game;
     private final Scanner scanner = new Scanner(System.in);
+    private final Random random = new Random();
 
     @Override
     public void startGame(){
@@ -49,12 +57,13 @@ public class CLIGameProvider implements IGameProvider {
             if (_inputIsValid(input)){
                 switch(game.play(input.charAt(0))){
                     case -1:{
-                        System.out.println("❌❌❌Игра окончена вы проиграли");
+                        System.out.println("\n\n\n❌❌❌Игра окончена вы проиграли");
+                        System.out.printf("Правильное слово: %s\n", game.getHiddenWordString());
                         printCurrentState();
                         break;
                     }
                     case 1:{
-                        System.out.println("✅✅✅Вы выйграли!");
+                        System.out.println("\n\n\n✅✅✅Вы выйграли!");
                         printCurrentState();
                         break;
                     }
@@ -78,7 +87,19 @@ public class CLIGameProvider implements IGameProvider {
     }
 
     private void _playWithRandomWord(){
-        this.game = new Game("test");
-        play();
+        try {
+            ArrayList<String> words = new ArrayList<>();
+            ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+            InputStream inputStream = classloader.getResourceAsStream("words.txt");
+            InputStreamReader streamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
+            BufferedReader reader = new BufferedReader(streamReader);
+            for (String word; (word = reader.readLine()) != null;) {
+                words.add(word);
+            }
+            this.game = new Game(words.get(random.nextInt(100)));
+            play();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
