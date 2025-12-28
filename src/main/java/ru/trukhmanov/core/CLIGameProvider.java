@@ -22,12 +22,11 @@ public class CLIGameProvider implements IGameProvider {
             String menuInput = scanner.nextLine();
             switch (menuInput){
                 case "1": {
-                    _playWithYourWord();
+                    playWithYourWord();
                     break;
                 }
                 case "2":{
-                    System.out.println("Имитация рандома слова");
-                    _playWithRandomWord();
+                    playWithRandomWord();
                     break;
                 }
                 default: return;
@@ -35,7 +34,7 @@ public class CLIGameProvider implements IGameProvider {
         }
     }
 
-    private boolean _inputIsValid(String str){
+    private boolean inputIsValid(String str){
         if (str.length() != 1) return false;
         if (!str.matches("[a-zA-Zа-яА-Я]")) return false;
         return true;
@@ -53,7 +52,7 @@ public class CLIGameProvider implements IGameProvider {
         while (!game.isEnd()){
             System.out.print("Введите букву 👉 ");
             String input = scanner.nextLine().toUpperCase();
-            if (_inputIsValid(input)){
+            if (inputIsValid(input)){
                 switch(game.play(input.charAt(0))){
                     case -2:{
                         System.out.println("Вы повторно ввели неправильную букву!");
@@ -79,7 +78,7 @@ public class CLIGameProvider implements IGameProvider {
         }
     }
 
-    private void _playWithYourWord() {
+    private void playWithYourWord() {
         System.out.println("Введите слово, которое будут отгадывать:");
         if (scanner.hasNextLine()){
             String word = scanner.nextLine();
@@ -89,7 +88,7 @@ public class CLIGameProvider implements IGameProvider {
 
     }
 
-    private void _playWithRandomWord(){
+    private void playWithRandomWord(){
         try {
             ArrayList<String> words = new ArrayList<>();
             ClassLoader classloader = Thread.currentThread().getContextClassLoader();
