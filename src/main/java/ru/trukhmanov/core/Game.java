@@ -38,7 +38,13 @@ public class Game {
         Arrays.fill(maskHiddenWord, '_');
     }
 
+    /*
+        Возвращает -1, когда допущена ошибка
+        Возвращает -2, когда повторно введена ошибочная буква
+        Возвращает 0, когда введена верная буква
+     */
     private int _letterCheckAndReplace(char letter){
+        if (misspelledLetters.contains(String.valueOf(letter))) return -2; //проверка повторной ошибки
         boolean isMistake = true;
         int i = 0;
         while (i < hiddenWord.length) {
@@ -59,6 +65,7 @@ public class Game {
      */
     public int play(char letter){
         int resultLetterCheck = _letterCheckAndReplace(letter);
+        if (resultLetterCheck == -2) return -2;
         if (resultLetterCheck == -1){
             errorCounter++;
             misspelledLetters += letter + " ";

@@ -26,7 +26,6 @@ public class CLIGameProvider implements IGameProvider {
                     break;
                 }
                 case "2":{
-                    //TODO: считывание файла со словами(100 шутк) и пик рандомного
                     System.out.println("Эмитация рандома слова");
                     _playWithRandomWord();
                     break;
@@ -56,8 +55,13 @@ public class CLIGameProvider implements IGameProvider {
             String input = scanner.nextLine().toUpperCase();
             if (_inputIsValid(input)){
                 switch(game.play(input.charAt(0))){
+                    case -2:{
+                        System.out.println("Вы повторно ввели неправильную букву!");
+                        printCurrentState();
+                        break;
+                    }
                     case -1:{
-                        System.out.println("\n\n\n❌❌❌Игра окончена вы проиграли");
+                        System.out.println("\n\n\n❌❌❌Игра окончена. Вы проиграли");
                         System.out.printf("Правильное слово: %s\n", game.getHiddenWordString());
                         printCurrentState();
                         break;

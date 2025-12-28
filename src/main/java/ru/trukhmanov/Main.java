@@ -6,7 +6,6 @@ import ru.trukhmanov.core.IGameProvider;
 
 public class Main {
     public static void main(String[] args) {
-        IGameProvider gp = new CLIGameProvider();
-        gp.startGame();
+        new CLIGameProvider().startGame();
     }
 }
