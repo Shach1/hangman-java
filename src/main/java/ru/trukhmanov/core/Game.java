@@ -1,41 +1,44 @@
 package ru.trukhmanov.core;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Game {
     private boolean isEnd = false;
-    private final char[] hiddenWord;
+    private final List<Character> hiddenWord = new ArrayList<>(15);
     private final String hiddenWordString;
-    private final char[] maskHiddenWord;
+    private final List<Character> maskHiddenWord = new ArrayList<>(15);
     private short errorCounter = 0;
-    private final short maxErrorCount = 6;
     private String misspelledLetters = "";
-
-    protected char[] getMaskHiddenWord() {
-        return maskHiddenWord;
-    }
 
     protected short getErrorCounter() {
         return errorCounter;
     }
 
-    protected String getMisspelledLetters() {
-        return misspelledLetters;
+    protected String getMisspelledLetters() {return misspelledLetters;}
+
+    protected boolean isEnd() {
+        return isEnd;
     }
 
     protected String getHiddenWordString() {
         return hiddenWordString;
     }
 
-    protected boolean isEnd() {
-        return isEnd;
+    protected String getMaskHiddenWordString() {
+        String maskHiddenWordString = "";
+        for (var letter : maskHiddenWord) {
+            maskHiddenWordString += letter.toString();
+        }
+        return maskHiddenWordString;
     }
 
     public Game(String word) {
         this.hiddenWordString = word.toUpperCase();
-        this.hiddenWord = hiddenWordString.toCharArray();
-        maskHiddenWord = new char[hiddenWord.length];
-        Arrays.fill(maskHiddenWord, '_');
+        for (var letter : hiddenWordString.toCharArray()) {
+            hiddenWord.add(letter);
+            maskHiddenWord.add('_');
+        }
     }
 
     /*
@@ -46,21 +49,19 @@ public class Game {
     private int _letterCheckAndReplace(char letter){
         if (misspelledLetters.contains(String.valueOf(letter))) return -2; //проверка повторной ошибки
         boolean isMistake = true;
-        int i = 0;
-        while (i < hiddenWord.length) {
-            if(hiddenWord[i] == letter){
-                maskHiddenWord[i] = letter;
+        for (int i = 0; i < hiddenWord.size(); i++){
+            if (hiddenWord.get(i).equals(letter)){
+                maskHiddenWord.set(i, letter);
                 isMistake = false;
             }
-            i++;
         }
         if (isMistake) return -1;
         return 0;
     }
 
     /*
-        Возвращает -1, когда игра проиграна
-        Возвращает 0, когда игра продолжается
+        Возвращает -1, когда игра проиграна,
+        Возвращает 0, когда игра продолжается,
         Возвращает 1, когда игра выиграна
      */
     public int play(char letter){
@@ -69,13 +70,14 @@ public class Game {
         if (resultLetterCheck == -1){
             errorCounter++;
             misspelledLetters += letter + " ";
+            short maxErrorCount = 6;
             if (errorCounter == maxErrorCount){     //проверка поражения
                 isEnd = true;
                 return -1;
             }
         }
         else {      //проверка выйгрыша
-            if (Arrays.equals(maskHiddenWord, hiddenWord)){
+            if (maskHiddenWord.equals(hiddenWord)){
                 isEnd = true;
                 return 1;
             }

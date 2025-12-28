@@ -26,7 +26,7 @@ public class CLIGameProvider implements IGameProvider {
                     break;
                 }
                 case "2":{
-                    System.out.println("Эмитация рандома слова");
+                    System.out.println("Имитация рандома слова");
                     _playWithRandomWord();
                     break;
                 }
@@ -43,7 +43,7 @@ public class CLIGameProvider implements IGameProvider {
 
     private void printCurrentState(){
         System.out.println(HangmanAsciiPrinter.hangmanAscii(game.getErrorCounter()));
-        System.out.println("Слово: " + String.copyValueOf(game.getMaskHiddenWord()));
+        System.out.println("Слово: " + game.getMaskHiddenWordString());
         System.out.println("Ошибки: " + game.getMisspelledLetters());
     }
 
@@ -57,7 +57,6 @@ public class CLIGameProvider implements IGameProvider {
                 switch(game.play(input.charAt(0))){
                     case -2:{
                         System.out.println("Вы повторно ввели неправильную букву!");
-                        printCurrentState();
                         break;
                     }
                     case -1:{
@@ -100,7 +99,7 @@ public class CLIGameProvider implements IGameProvider {
             for (String word; (word = reader.readLine()) != null;) {
                 words.add(word);
             }
-            this.game = new Game(words.get(random.nextInt(100)));
+            this.game = new Game(words.get(random.nextInt(words.size())));
             play();
         } catch (IOException e) {
             throw new RuntimeException(e);
