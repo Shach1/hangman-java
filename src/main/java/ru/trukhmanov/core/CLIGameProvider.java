@@ -21,6 +21,9 @@ public class CLIGameProvider implements IGameProvider {
             System.out.println("Меню игры:\n1. Ввести слово в консоли\n2. Рандомное слово\n0. Выход \n ->");
             String menuInput = scanner.nextLine();
             switch (menuInput){
+                case "0": {
+                    return;
+                }
                 case "1": {
                     playWithYourWord();
                     break;
@@ -29,21 +32,20 @@ public class CLIGameProvider implements IGameProvider {
                     playWithRandomWord();
                     break;
                 }
-                default: return;
             }
         }
     }
 
     private boolean inputIsValid(String str){
         if (str.length() != 1) return false;
-        if (!str.matches("[a-zA-Zа-яА-Я]")) return false;
+        if (!str.matches("[ёЁа-яА-Я]")) return false;
         return true;
     }
 
     private void printCurrentState(){
         System.out.println(HangmanAsciiPrinter.hangmanAscii(game.getErrorCounter()));
         System.out.println("Слово: " + game.getMaskHiddenWordString());
-        System.out.println("Ошибки: " + game.getMisspelledLetters());
+        System.out.println("Ошибки: " + game.getErrorCounter() + " - " + game.getMisspelledLetters());
     }
 
     private void play(){
