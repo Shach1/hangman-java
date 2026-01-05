@@ -1,8 +1,18 @@
 package ru.trukhmanov.core;
 
-public class HangmanAsciiPrinter {
-    public static String hangmanAscii(int errorCount){
+public final class HangmanAsciiStages {
+    private HangmanAsciiStages(){}
+
+    public static String getStage(int errorCount){
         return switch (errorCount) {
+            case 0 -> """
+                      +---+
+                      |   |
+                          |
+                          |
+                          |
+                          |
+                    =========""";
             case 1 -> """
                       +---+
                       |   |
@@ -51,14 +61,7 @@ public class HangmanAsciiPrinter {
                      / \\  |
                           |
                     =========""";
-            default -> """
-                      +---+
-                      |   |
-                          |
-                          |
-                          |
-                          |
-                    =========""";
+            default -> throw new IllegalArgumentException("Unknown stage: " + errorCount);
         };
     }
 }

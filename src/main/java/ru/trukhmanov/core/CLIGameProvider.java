@@ -43,7 +43,7 @@ public class CLIGameProvider implements IGameProvider {
     }
 
     private void printCurrentState(){
-        System.out.println(HangmanAsciiPrinter.hangmanAscii(game.getErrorCounter()));
+        System.out.println(HangmanAsciiStages.getStage(game.getErrorCounter()));
         System.out.println("Слово: " + game.getMaskHiddenWordString());
         System.out.println("Ошибки: " + game.getErrorCounter() + " - " + game.getMisspelledLetters());
     }
