@@ -44,10 +44,12 @@ public class Game {
     /*
         Возвращает -1, когда допущена ошибка
         Возвращает -2, когда повторно введена ошибочная буква
+        Возвращает -3, когда повторно введена правильная буква
         Возвращает 0, когда введена верная буква
      */
     private int letterCheckAndReplace(char letter){
         if (misspelledLetters.contains(String.valueOf(letter))) return -2; //проверка повторной ошибки
+        if (maskHiddenWord.contains(letter)) return -3;
         boolean isMistake = true;
         for (int i = 0; i < hiddenWord.size(); i++){
             if (hiddenWord.get(i).equals(letter)){
@@ -61,12 +63,15 @@ public class Game {
 
     /*
         Возвращает -1, когда игра проиграна,
+        Возвращает -2, когда повторно введена ошибочная буква
+        Возвращает -3, когда повторно введена правильная буква
         Возвращает 0, когда игра продолжается,
         Возвращает 1, когда игра выиграна
      */
     public int play(char letter){
         int resultLetterCheck = letterCheckAndReplace(letter);
         if (resultLetterCheck == -2) return -2;
+        if (resultLetterCheck == -3) return -3;
         if (resultLetterCheck == -1){
             errorCounter++;
             misspelledLetters += letter + " ";

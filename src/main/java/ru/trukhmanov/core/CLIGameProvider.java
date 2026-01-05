@@ -56,6 +56,10 @@ public class CLIGameProvider implements IGameProvider {
             String input = scanner.nextLine().toUpperCase();
             if (inputIsValid(input)){
                 switch(game.play(input.charAt(0))){
+                    case -3:{
+                        System.out.println("Вы уже угадали эту букву!");
+                        break;
+                    }
                     case -2:{
                         System.out.println("Вы повторно ввели неправильную букву!");
                         break;
