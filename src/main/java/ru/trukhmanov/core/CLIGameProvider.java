@@ -25,7 +25,7 @@ public class CLIGameProvider implements IGameProvider {
                     return;
                 }
                 case "1": {
-                    playWithYourWord();
+                    playWithPlayerWord();
                     break;
                 }
                 case "2":{
@@ -80,10 +80,15 @@ public class CLIGameProvider implements IGameProvider {
         }
     }
 
-    private void playWithYourWord() {
+    private void playWithPlayerWord() {
         System.out.println("Введите слово, которое будут отгадывать:");
         if (scanner.hasNextLine()){
             String word = scanner.nextLine();
+            if(!word.matches("[ёЁа-яА-Я]{3,15}")){
+                System.out.println("Неправильный формат слова");
+                playWithPlayerWord();
+                return;
+            }
             this.game = new Game(word);
             play();
         }
