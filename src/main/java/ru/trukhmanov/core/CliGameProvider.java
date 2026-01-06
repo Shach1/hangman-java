@@ -15,6 +15,7 @@ public class CliGameProvider {
     private final Scanner scanner = new Scanner(System.in);
     private final Random random = new Random();
     private final ArrayList<String> words = new ArrayList<>();
+    private final GameInputValidator gameInputValidator = new GameInputValidator();
 
     public void startMainMenu(){
         while (true){
@@ -42,12 +43,6 @@ public class CliGameProvider {
         }
     }
 
-    private boolean inputIsValid(String str){
-        if (str.length() != 1) return false;
-        if (!str.matches("[ёЁа-яА-Я]")) return false;
-        return true;
-    }
-
     private void printCurrentState(){
         System.out.println(HangmanAsciiStages.getStage(game.getErrorCounter()));
         System.out.println("Слово: " + game.getMaskHiddenWordString());
@@ -60,7 +55,7 @@ public class CliGameProvider {
         while (!game.isEnd()){
             System.out.print("Введите букву 👉 ");
             String input = scanner.nextLine().toUpperCase();
-            if (inputIsValid(input)){
+            if (gameInputValidator.isValidLatter(input)){
                 switch(game.play(input.charAt(0))){
                     case -3:{
                         System.out.println("Вы уже угадали эту букву!");
@@ -94,7 +89,7 @@ public class CliGameProvider {
         System.out.println("Введите слово, которое будут отгадывать:");
         if (scanner.hasNextLine()){
             String word = scanner.nextLine();
-            if(!word.matches("[ёЁа-яА-Я]{3,15}")){
+            if(!gameInputValidator.isValidWord(word)){
                 System.out.println("Неправильный формат слова");
                 playWithPlayerWord();
                 return;
