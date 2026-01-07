@@ -32,7 +32,9 @@ public final class Dictionary {
     }
 
     public String getRandomWord(){
-        if (words.isEmpty()) throw new RuntimeException("List of words is Empty. Check that the dictionary file is not empty or restart the game.");
+        if (words.isEmpty()){
+            throw new RuntimeException("List of words is Empty. Check that the dictionary file is not empty or restart the game.");
+        }
         int wordForGameIndex = random.nextInt(words.size());
         String wordForGame = words.get(wordForGameIndex);
 
@@ -41,6 +43,4 @@ public final class Dictionary {
         words.removeLast();
         return wordForGame;
     }
-
-
 }
