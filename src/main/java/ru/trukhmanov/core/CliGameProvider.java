@@ -1,21 +1,13 @@
 package ru.trukhmanov.core;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.Random;
 import java.util.Scanner;
 
 public class CliGameProvider {
 
     private Game game;
     private final Scanner scanner = new Scanner(System.in);
-    private final Random random = new Random();
-    private final ArrayList<String> words = new ArrayList<>();
     private final GameInputValidator gameInputValidator = new GameInputValidator();
+    private final Dictionary dictionary = new Dictionary("words.txt");
 
     public void startMainMenu(){
         while (true){
@@ -101,30 +93,8 @@ public class CliGameProvider {
     }
 
     private void playWithRandomWord(){
-        if (words.isEmpty()){
-            try {
-                ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-                InputStream inputStream = classloader.getResourceAsStream("words.txt");
-                InputStreamReader streamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
-                BufferedReader reader = new BufferedReader(streamReader);
-                for (String word; (word = reader.readLine()) != null;) {
-                    words.add(word);
-                }
-                reader.close();
-                streamReader.close();
-                inputStream.close();
-            } catch (IOException e) {
-                throw new RuntimeException("Error reading words.txt");
-            }
-        }
-        int wordForGameIndex = random.nextInt(words.size());
-        String wordForGame = words.get(wordForGameIndex);
+        String wordForGame = dictionary.getRandomWord();
         this.game = new Game(wordForGame);
-
-        //небольшая оптимизация, чтобы не делать удаление из середины
-        words.set(wordForGameIndex, words.getLast());
-        words.removeLast();
-
         play();
     }
 }

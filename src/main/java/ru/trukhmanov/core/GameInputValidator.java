@@ -2,7 +2,7 @@ package ru.trukhmanov.core;
 
 import java.util.regex.Pattern;
 
-public class GameInputValidator {
+public final class GameInputValidator {
     private final Pattern latterPattern = Pattern.compile("[ёЁа-яА-Я]");
     private final Pattern wordPattern = Pattern.compile("[ёЁа-яА-Я]{3,15}");
 
