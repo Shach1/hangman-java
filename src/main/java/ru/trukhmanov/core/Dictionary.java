@@ -6,11 +6,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
-public final class Dictionary {
-    private final Random random = new Random();
+public class Dictionary {
     private final List<String> words = new ArrayList<>();
 
     public Dictionary(String resourcePath){
@@ -26,6 +25,7 @@ public final class Dictionary {
             reader.close();
             streamReader.close();
             inputStream.close();
+            Collections.shuffle(words);
         } catch (RuntimeException | IOException e) {
             throw new RuntimeException("Error reading resource: " + resourcePath, e);
         }
@@ -35,12 +35,6 @@ public final class Dictionary {
         if (words.isEmpty()){
             throw new RuntimeException("List of words is Empty. Check that the dictionary file is not empty or restart the game.");
         }
-        int wordForGameIndex = random.nextInt(words.size());
-        String wordForGame = words.get(wordForGameIndex);
-
-        //небольшая оптимизация, чтобы не делать удаление из середины
-        words.set(wordForGameIndex, words.getLast());
-        words.removeLast();
-        return wordForGame;
+        return words.removeLast();
     }
 }

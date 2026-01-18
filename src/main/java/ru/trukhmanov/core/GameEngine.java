@@ -2,7 +2,7 @@ package ru.trukhmanov.core;
 
 import java.util.Scanner;
 
-public final class GameEngine {
+public class GameEngine {
     private final Scanner scanner = new Scanner(System.in);
     private final GameInputValidator gameInputValidator = new GameInputValidator();
     private final Dictionary dictionary = new Dictionary("words.txt");
@@ -42,7 +42,7 @@ public final class GameEngine {
     }
 
     private void playWithPlayerWord() {
-        System.out.println("Введите слово, которое будут отгадывать:");
+        System.out.println("Введите слово от 3 до 15 букв, без пробелов и спецсимволов:");
         if (scanner.hasNextLine()){
             String wordForGame = scanner.nextLine();
             if(!gameInputValidator.isValidWord(wordForGame)){

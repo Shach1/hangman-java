@@ -3,7 +3,7 @@ package ru.trukhmanov.core;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class SecretWord {
+public class SecretWord {
     private final List<Character> secretWord = new ArrayList<>(15);
     private final List<Character> maskSecretWord = new ArrayList<>(15);
     private final String secretWordString;
